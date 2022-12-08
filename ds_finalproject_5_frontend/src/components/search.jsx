@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
 import { Text, StyleSheet, TextInput, View, Button, TouchableOpacity } from 'react-native';
+import LoadingComponent from './loading';
+import SearchService from '../services/searchService';
 
-const SearchComponent = () => {
+const SearchComponent = ({onSearchRes}) => {
   const [keyword, setKeyword] = useState('');
-  const handleSearch = () => {
-    //fetch('',{}); // fetch search api in java spring boot
-    console.log(keyword);
-  };
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSearch = async () => {
+    setIsLoading(true);
+    const res = await SearchService.search(keyword);
+    const data = res.data;
+    setIsLoading(false);
+    
+    onSearchRes(data);
+  }
 
   return (
     <View style={ styles.container }>
@@ -22,7 +30,7 @@ const SearchComponent = () => {
             style={ styles.textInput }
             placeholder="Please input some keywords"
             onChangeText={newKeyword => setKeyword(newKeyword)}
-            defaultValue={keyword}
+            defaultValue={ keyword }
         />
         <TouchableOpacity 
           style={ styles.searchBtn }
@@ -30,6 +38,8 @@ const SearchComponent = () => {
         >
           <Text style={{color:'#3c4043', fontSize: 16}}>Goog1e Search</Text>
         </TouchableOpacity>
+
+        { isLoading ? <LoadingComponent style={styles.loading}/> : null }
     </View>
   );
 }
@@ -38,7 +48,9 @@ const styles = StyleSheet.create({
     container:{
       alignItems: 'center',
       justifyContent: 'center',
-      padding: 10
+      padding: 10,
+      width: "100%",
+      height: "100%"
     },
     textInput: {
       height: 50,
@@ -63,7 +75,7 @@ const styles = StyleSheet.create({
       paddingHorizontal: 15,
       paddingVertical: 10,
       marginTop: 15
-    }
+    },
 });
 
 export default SearchComponent;
