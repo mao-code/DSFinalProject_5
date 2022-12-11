@@ -3,24 +3,37 @@ import { StyleSheet, Text, View } from 'react-native';
 import SearchComponent from './src/components/search';
 import { getLocales } from "expo-localization";
 import React, { useState } from 'react';
+import ResultComponent from './src/components/result';
 
 export default function App() {
   const [searchRes, setSearchRes] = useState(null);
+  const [isShowResult, setIsShowResult] = useState(false);
 
   const onSearchRes = (data) => {
     setSearchRes(data);
-    const myResult = data["myResult"];
-    const orginalGoogleResult = data["orginalGoogleResult"];
-    console.log(myResult);
+    setIsShowResult(true);
+  }
+
+  const onBackToSearch = () => {
+    setIsShowResult(false);
   }
 
   return (
     <View style={styles.container}>
-      <SearchComponent 
-        style={styles.search}
-        onSearchRes={onSearchRes}
-      />
       
+      { 
+        isShowResult ? 
+        <ResultComponent
+          style={styles.result}
+          searchRes={searchRes}
+          onBackToSearch={onBackToSearch}
+        /> : 
+        <SearchComponent 
+          style={styles.search}
+          onSearchRes={onSearchRes}
+        />
+      }
+     
     </View>
   );
 }
@@ -38,6 +51,13 @@ const styles = StyleSheet.create({
     left: 0
   },
   search: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0
+  },
+  result: {
     position: 'absolute',
     top: 0,
     right: 0,
