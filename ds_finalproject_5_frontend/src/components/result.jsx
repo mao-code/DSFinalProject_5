@@ -19,6 +19,11 @@ export default function ResultComponent({searchRes, onBackToSearch}) {
         >
           { data["displayName"] }
         </Text>
+        <Text
+          style={styles.description}
+        >
+          { data["description"] }
+        </Text>
       </View>
     );
   });
@@ -67,7 +72,7 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   result: {
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginVertical: 20
   },
   resultTitle:{
@@ -75,8 +80,13 @@ const styles = StyleSheet.create({
     color: 'blue'
   },
   resultScrollView:{
-    paddingHorizontal: 15,
+    paddingHorizontal: 30,
     overflow: 'scroll',
+  },
+  description: {
+    fontSize: 15,
+    marginTop: 5,
+    color: "#252525"
   }
 });
 

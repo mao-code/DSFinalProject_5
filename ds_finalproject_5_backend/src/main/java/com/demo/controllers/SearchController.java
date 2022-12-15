@@ -89,9 +89,7 @@ public class SearchController {
 				String[] value = googleResult.getValue().split(":::");
 				
 				String url = value[0];
-				System.out.println(url);
 				String description = value.length > 1 ? value[1] : "";	
-				System.out.println(description);
 				
 				WebPage page = new WebPage(googleResult.getKey(), url, keyword);				
 				try {
