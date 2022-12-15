@@ -75,15 +75,14 @@ public class SearchController {
 	 * Recommend search keyword
 	 * 1. 計程車司機
 	 * */
-	@GetMapping("/movie/search/{keyword}")
-	public ResponseEntity<ResponseData<Object>> search(@PathVariable("keyword") String keyword)
+	@GetMapping("/movie/search/{keyword}/{count}/{skip}")
+	public ResponseEntity<ResponseData<Object>> search(@PathVariable("keyword") String keyword, @PathVariable("count") int count, @PathVariable("skip") int skip)
 	{
 		SearchResultList resList = new SearchResultList();
 		HashMap<String, String> googleResults = new HashMap<String, String>();
 		
-		int googleSearchCount = 20;
 		try {
-			googleResults = this.htmlService.searchGoogle(keyword, googleSearchCount);
+			googleResults = this.htmlService.searchGoogle(keyword, count, skip);
 			resList.setOriginalGoogleResults(googleResults);
 			for(Map.Entry<String, String> googleResult : googleResults.entrySet())
 			{				

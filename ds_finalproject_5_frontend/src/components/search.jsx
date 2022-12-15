@@ -9,6 +9,8 @@ const SearchComponent = ({onSearchRes}) => {
 
   const handleSearch = async () => {
     setIsLoading(true);
+
+    //get skip count
     const res = await SearchService.search(keyword);
     const data = res.data;
     setIsLoading(false);

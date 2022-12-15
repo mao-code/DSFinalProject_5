@@ -34,8 +34,8 @@ public class HTMLService implements IHTMLService{
 	}
 	
 	@Override
-	public String fetchGoogleResultContent(String keyword, int count) throws IOException {
-		String url = "https://www.google.com/search?q="+keyword+"&ie=UTF-8&num="+count;
+	public String fetchGoogleResultContent(String keyword, int count, int skip) throws IOException {
+		String url = "https://www.google.com/search?q="+keyword+"&ie=UTF-8&num="+count+"&start="+skip;
 	
 		Connection conn = Jsoup.connect(url); //decode base64 encoding character
 		conn.timeout(10000);
@@ -48,8 +48,8 @@ public class HTMLService implements IHTMLService{
 	}
 
 	@Override
-	public HashMap<String, String> searchGoogle(String keyword, int count) throws IOException {
-		String content = this.fetchGoogleResultContent(keyword, count);
+	public HashMap<String, String> searchGoogle(String keyword, int count, int skip) throws IOException {
+		String content = this.fetchGoogleResultContent(keyword, count, skip);
 				
 		HashMap<String, String> res = new HashMap<String, String>();
 
@@ -78,8 +78,7 @@ public class HTMLService implements IHTMLService{
 				if(title.equals("")) 
 				{
 					continue;
-				}
-				
+				}			
 				
 				//put title and pair into HashMap
 				res.put(title, citeUrl);
