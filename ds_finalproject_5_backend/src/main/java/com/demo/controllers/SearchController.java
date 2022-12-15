@@ -86,7 +86,14 @@ public class SearchController {
 			resList.setOriginalGoogleResults(googleResults);
 			for(Map.Entry<String, String> googleResult : googleResults.entrySet())
 			{				
-				WebPage page = new WebPage(googleResult.getKey(), googleResult.getValue(), keyword);				
+				String[] value = googleResult.getValue().split(":::");
+				
+				String url = value[0];
+				System.out.println(url);
+				String description = value.length > 1 ? value[1] : "";	
+				System.out.println(description);
+				
+				WebPage page = new WebPage(googleResult.getKey(), url, keyword);				
 				try {
 					//bad request (may be the site side error)
 					//just skip it
@@ -96,7 +103,7 @@ public class SearchController {
 					continue;
 				} 
 				
-				resList.addResult(new SearchResult(page.url, page.name, page.score));
+				resList.addResult(new SearchResult(page.url, page.name, page.score, description));
 			}
 			resList.sort();
 			
@@ -110,7 +117,7 @@ public class SearchController {
 				)
 			);
 		}catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			return ResponseEntity.status(500).body(new ResponseData<>(500, false, "Internal Server Error!", e.getMessage()));
 		}
 	}

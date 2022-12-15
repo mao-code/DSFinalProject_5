@@ -4,12 +4,14 @@ public class SearchResult implements Comparable<SearchResult>{
 	public String url;
 	public String displayName;
 	public double score;
+	public String description;
 	
-	public SearchResult(String url, String displayName, double score)
+	public SearchResult(String url, String displayName, double score, String description)
 	{
 		this.url = url;
 		this.displayName = displayName;
 		this.score = score;
+		this.description = description;
 	}
 
 	@Override

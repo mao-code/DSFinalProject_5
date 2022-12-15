@@ -42,7 +42,7 @@ public class HTMLService implements IHTMLService{
 		conn.header("User-agent", "Mozilla/5.0");	
 		
 		Document doc = conn.get();
-		
+			
 		return doc.toString();
 
 	}
@@ -59,7 +59,7 @@ public class HTMLService implements IHTMLService{
 		//select particular element(tag) which you want 
 		Elements lis = doc.select("div");
 		lis = lis.select(".kCrYT"); // google 搜尋後結果中的class
-		
+
 		for(Element li : lis)
 		{
 			try 
@@ -80,12 +80,16 @@ public class HTMLService implements IHTMLService{
 					continue;
 				}			
 				
+				// description在緊接著下一個的kCrYT
+				Element desOuterDiv = li.parent().select(".kCrYT").get(1);
+				String description = desOuterDiv.select(".BNeawe").get(1).text();
+				
 				//put title and pair into HashMap
-				res.put(title, citeUrl);
+				res.put(title, citeUrl+":::"+description);
 
-			} catch (IndexOutOfBoundsException e) 
+			} catch (Exception e) 
 			{
-				//e.printStackTrace();
+//				e.printStackTrace();
 			}
 		}
 		return res;
