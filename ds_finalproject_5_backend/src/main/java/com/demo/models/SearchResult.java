@@ -1,10 +1,13 @@
 package com.demo.models;
 
+import java.util.ArrayList;
+
 public class SearchResult implements Comparable<SearchResult>{
 	public String url;
 	public String displayName;
 	public double score;
 	public String description;
+	public ArrayList<WebNode> subSites;
 	
 	public SearchResult(String url, String displayName, double score, String description)
 	{
@@ -12,6 +15,15 @@ public class SearchResult implements Comparable<SearchResult>{
 		this.displayName = displayName;
 		this.score = score;
 		this.description = description;
+	}
+	
+	public SearchResult(WebNode node)
+	{
+		this.url = node.getPage().url;
+		this.displayName = node.getPage().name;
+		this.score = node.getNodeScore();
+		this.description = node.getPage().description;
+		this.subSites = node.getChildren();
 	}
 
 	@Override

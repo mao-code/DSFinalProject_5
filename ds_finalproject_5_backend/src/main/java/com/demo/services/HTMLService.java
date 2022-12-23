@@ -36,10 +36,10 @@ public class HTMLService implements IHTMLService{
 	@Override
 	public String fetchGoogleResultContent(String keyword, int count, int skip) throws IOException {
 		String url = "https://www.google.com/search?q="+keyword+"&ie=UTF-8&num="+count+"&start="+skip;
-	
+		
 		Connection conn = Jsoup.connect(url); //decode base64 encoding character
 		conn.timeout(10000);
-		conn.header("User-agent", "Mozilla/5.0");	
+		conn.header("User-agent", "Chrome/107.0.0.0");	
 		
 		Document doc = conn.get();
 			

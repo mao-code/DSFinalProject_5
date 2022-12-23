@@ -5,7 +5,11 @@ import Icon from 'react-native-vector-icons/AntDesign';
 export default function ResultComponent({searchRes, onBackToSearch}) {
   const [input, setInput] = useState(searchRes);
   const myResult = input["myResult"];
-  const orginalGoogleResult = input["orginalGoogleResult"];
+  const originalGoogleResult = input["orginalGoogleResult"];
+
+  // demo use
+  console.log(originalGoogleResult);
+  console.log(myResult);
 
   var searchResView = myResult.map(data=>{
     return (

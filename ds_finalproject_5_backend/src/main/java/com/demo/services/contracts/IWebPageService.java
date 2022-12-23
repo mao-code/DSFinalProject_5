@@ -10,4 +10,5 @@ import com.demo.models.WebPage;
 
 public interface IWebPageService {
 	void setScore(WebPage webPage, ArrayList<Keyword> keywords) throws IOException, URISyntaxException;
+	void addScore(WebPage page, double score);
 }

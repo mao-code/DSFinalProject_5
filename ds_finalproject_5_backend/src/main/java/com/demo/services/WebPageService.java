@@ -37,5 +37,10 @@ public class WebPageService implements IWebPageService{
 			score += count * k.weight;
 		}
 		webPage.score = score;
+	}
+
+	@Override
+	public void addScore(WebPage page, double score) {
+		page.score += score;
 	}	
 }

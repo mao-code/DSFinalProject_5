@@ -11,7 +11,7 @@ const SearchComponent = ({onSearchRes}) => {
     setIsLoading(true);
 
     //get skip count
-    const res = await SearchService.search(keyword);
+    const res = await SearchService.search(keyword, 10);
     const data = res.data;
     setIsLoading(false);
     

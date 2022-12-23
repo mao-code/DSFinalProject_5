@@ -74,6 +74,7 @@ public class SearchController {
 	/*
 	 * Recommend search keyword
 	 * 1. 計程車司機
+	 * 2. 億萬富翁
 	 * */
 	@GetMapping("/movie/search/{keyword}/{count}/{skip}")
 	public ResponseEntity<ResponseData<Object>> search(@PathVariable("keyword") String keyword, @PathVariable("count") int count, @PathVariable("skip") int skip)
@@ -91,19 +92,31 @@ public class SearchController {
 				String url = value[0];
 				String description = value.length > 1 ? value[1] : "";	
 				
-				WebPage page = new WebPage(googleResult.getKey(), url, keyword);				
+				WebPage page = new WebPage(googleResult.getKey(), url, keyword, description);
 				try {
 					//bad request (may be the site side error)
 					//just skip it
-					this.webPageService.setScore(page, this.keywords);
+					
+					// Build WebTree
+					WebTree tree = this.webTreeService.buildTree(new WebNode(page));
+					
+					// Set Score
+					this.webTreeService.setPostOrderScore(tree, keywords);
+					
+					resList.addResult(new SearchResult(tree.getRoot()));
+					
+//					this.webPageService.setScore(page, this.keywords);
 				} catch (IOException e) {
 					System.out.println(e.getLocalizedMessage()+page.name+", url: "+page.url);
 					continue;
 				} 
 				
-				resList.addResult(new SearchResult(page.url, page.name, page.score, description));
+//				resList.addResult(new SearchResult(page.url, page.name, page.score, description));
+
 			}
-			resList.sort();
+			
+			// Ranking
+			resList.sort(); 
 			
 			//給前後對比
 			return ResponseEntity.ok().body(
