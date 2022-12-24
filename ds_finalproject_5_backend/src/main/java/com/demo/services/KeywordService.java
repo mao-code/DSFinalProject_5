@@ -1,10 +1,12 @@
 package com.demo.services;
 
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.demo.models.Keyword;
 import com.demo.services.contracts.IKeywordService;
 
 @Service
@@ -33,5 +35,11 @@ public class KeywordService implements IKeywordService{
 		return res;
 	}
 
+	@Override
+	public ArrayList<String> deriveRelativeKeywords(String content, ArrayList<Keyword> keywords) {
+		
+		
+		return null;
+	}
 	
 }

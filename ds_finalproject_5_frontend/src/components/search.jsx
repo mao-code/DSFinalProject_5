@@ -15,7 +15,7 @@ const SearchComponent = ({onSearchRes}) => {
     const data = res.data;
     setIsLoading(false);
     
-    onSearchRes(data);
+    onSearchRes({data: data, keyword: keyword});
   }
 
   return (
@@ -41,7 +41,7 @@ const SearchComponent = ({onSearchRes}) => {
           <Text style={{color:'#3c4043', fontSize: 16}}>Goog1e Search</Text>
         </TouchableOpacity>
 
-        { isLoading ? <LoadingComponent style={styles.loading}/> : null }
+        { isLoading ? <LoadingComponent/> : null }
     </View>
   );
 }

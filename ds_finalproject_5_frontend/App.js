@@ -8,9 +8,11 @@ import ResultComponent from './src/components/result';
 export default function App() {
   const [searchRes, setSearchRes] = useState(null);
   const [isShowResult, setIsShowResult] = useState(false);
+  const [keyword, setKeyword] = useState("");
 
   const onSearchRes = (data) => {
-    setSearchRes(data);
+    setSearchRes(data.data);
+    setKeyword(data.keyword);
     setIsShowResult(true);
   }
 
@@ -25,6 +27,7 @@ export default function App() {
         isShowResult ? 
         <ResultComponent
           style={styles.result}
+          keyword={keyword}
           searchRes={searchRes}
           onBackToSearch={onBackToSearch}
         /> : 

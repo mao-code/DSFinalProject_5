@@ -64,6 +64,12 @@ public class SearchController {
 		keywords.add(new Keyword("電影院", 5.5));
 		keywords.add(new Keyword("場次", 5.5));
 		keywords.add(new Keyword("票價", 5));
+		
+		//new added
+		keywords.add(new Keyword("电影", 10));
+		keywords.add(new Keyword("评分", 4));
+		keywords.add(new Keyword("評分", 4));
+		keywords.add(new Keyword("小說", 4));	
 	}
 	
 	@GetMapping("/movie/search/default")
