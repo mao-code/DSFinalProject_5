@@ -36,10 +36,43 @@ public class KeywordService implements IKeywordService{
 	}
 
 	@Override
-	public ArrayList<String> deriveRelativeKeywords(String content, ArrayList<Keyword> keywords) {
+	public ArrayList<String> deriveRelativeKeywordsFromDescription(String description, ArrayList<Keyword> keywords) {
+		// use DP to find LCS of keywords and website's description
+		ArrayList<String> res = new ArrayList<String>();
+				
+		for(Keyword keyword : keywords) 
+		{
+			String[][] dpTable = new String[description.length()+1][keyword.name.length()+1];
+			for(int i=0; i<description.length()+1; i++)
+			{
+				dpTable[i][0]="";
+			}
+			for(int i=0; i<keyword.name.length()+1; i++)
+			{
+				dpTable[0][i]="";
+			}
+			
+			for(int i=0; i<description.length(); i++)
+			{
+				for(int j=0; j<keyword.name.length(); j++)
+				{
+					if(description.charAt(i) == keyword.name.charAt(j)) {
+						dpTable[i+1][j+1] = dpTable[i][j]+keyword.name.charAt(j);
+					}else {
+						dpTable[i+1][j+1] = dpTable[i][j+1].length()>dpTable[i+1][j].length() ? dpTable[i][j+1] : dpTable[i+1][j];
+					}
+				}
+			}
+			if(
+				!dpTable[description.length()][keyword.name.length()].strip().isEmpty() 
+				&& !res.contains(dpTable[description.length()][keyword.name.length()])
+			) {
+				res.add(dpTable[description.length()][keyword.name.length()]+"=>"+keyword.name);
+			}
+		}
 		
-		
-		return null;
+		return res;
 	}
-	
+
+
 }

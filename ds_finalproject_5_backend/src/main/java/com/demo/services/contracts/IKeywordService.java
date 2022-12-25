@@ -7,6 +7,6 @@ import org.springframework.stereotype.Service;
 import com.demo.models.Keyword;
 
 public interface IKeywordService {
-	int countKeywords(String content, String keyword);
-	ArrayList<String> deriveRelativeKeywords(String content, ArrayList<Keyword> keywords);
+	int countKeywords(String content, String keyword);	
+	ArrayList<String> deriveRelativeKeywordsFromDescription(String description, ArrayList<Keyword> keywords);
 }

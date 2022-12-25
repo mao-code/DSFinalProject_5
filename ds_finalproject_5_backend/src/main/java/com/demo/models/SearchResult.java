@@ -8,6 +8,7 @@ public class SearchResult implements Comparable<SearchResult>{
 	public double score;
 	public String description;
 	public ArrayList<WebNode> subSites;
+	public ArrayList<String> relativeKeywords;
 	
 	public SearchResult(String url, String displayName, double score, String description)
 	{
@@ -24,6 +25,16 @@ public class SearchResult implements Comparable<SearchResult>{
 		this.score = node.getNodeScore();
 		this.description = node.getPage().description;
 		this.subSites = node.getChildren();
+	}
+	
+	public SearchResult(WebNode node, ArrayList<String> relativeKeywords)
+	{
+		this.url = node.getPage().url;
+		this.displayName = node.getPage().name;
+		this.score = node.getNodeScore();
+		this.description = node.getPage().description;
+		this.subSites = node.getChildren();
+		this.relativeKeywords = relativeKeywords;
 	}
 
 	@Override

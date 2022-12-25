@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import SearchService from '../services/searchService';
 import LoadingComponent from './loading';
+import {Collapse,CollapseHeader, CollapseBody} from 'accordion-collapse-react-native';
 
 export default function ResultComponent({keyword, searchRes, onBackToSearch}) {
   const [input, setInput] = useState(searchRes);
@@ -74,13 +75,40 @@ export default function ResultComponent({keyword, searchRes, onBackToSearch}) {
             style={styles.resultTitle}
             onPress={() => Linking.openURL(data["url"])}
           >
-            { data["displayName"] }
+            { data["displayName"] + "\nScore: "+data["score"] }
           </Text>
           <Text
             style={styles.description}
           >
             { data["description"] }
           </Text>
+          <Collapse>
+            <CollapseHeader>
+              <View style={styles.colps}>
+                <Text style={styles.colpsTxt}>Relative Keywords</Text>
+              </View>
+            </CollapseHeader>
+            <CollapseBody>
+              <Text>{data["relativeKeywords"].join("\n")}</Text>
+            </CollapseBody>
+          </Collapse>
+          <Collapse>
+            <CollapseHeader>
+              <View style={styles.colps}>
+                <Text style={styles.colpsTxt}>Subsites</Text>
+              </View>
+            </CollapseHeader>
+            <CollapseBody>
+              {data["subSites"].map(_=>{
+                return (
+                  <View>
+                    <Text>{"url: \n"+_.page.url}</Text>
+                    <Text>{"score: "+_.page.score}</Text>
+                  </View>
+                );
+              })}
+            </CollapseBody>
+          </Collapse>
         </View>
       );
     });
@@ -188,6 +216,17 @@ const styles = StyleSheet.create({
   pageIndex:{
     fontSize: 18,
     marginLeft: 'auto'
+  },
+  colps:{
+    marginVertical: 8,
+    backgroundColor: "#e4e4e4",
+    paddingVertical:5,
+    paddingHorizontal: 10,
+    borderRadius: 5
+  },
+  colpsTxt:{
+    fontSize: 15,
+    fontWeight: "500"
   }
 });
 

@@ -67,6 +67,8 @@ public class SearchController {
 		
 		//new added
 		keywords.add(new Keyword("电影", 10));
+		keywords.add(new Keyword("改編", 4.5));
+		keywords.add(new Keyword("觀賞", 4.5));
 		keywords.add(new Keyword("评分", 4));
 		keywords.add(new Keyword("評分", 4));
 		keywords.add(new Keyword("小說", 4));	
@@ -81,6 +83,7 @@ public class SearchController {
 	 * Recommend search keyword
 	 * 1. 計程車司機
 	 * 2. 億萬富翁
+	 * 3. 巴黎
 	 * */
 	@GetMapping("/movie/search/{keyword}/{count}/{skip}")
 	public ResponseEntity<ResponseData<Object>> search(@PathVariable("keyword") String keyword, @PathVariable("count") int count, @PathVariable("skip") int skip)
@@ -109,16 +112,14 @@ public class SearchController {
 					// Set Score
 					this.webTreeService.setPostOrderScore(tree, keywords);
 					
-					resList.addResult(new SearchResult(tree.getRoot()));
+					ArrayList<String> relativeKeywordsFromDescription = this.keywordService.deriveRelativeKeywordsFromDescription(description, keywords);
 					
-//					this.webPageService.setScore(page, this.keywords);
+					resList.addResult(new SearchResult(tree.getRoot(), relativeKeywordsFromDescription));
+					
 				} catch (IOException e) {
 					System.out.println(e.getLocalizedMessage()+page.name+", url: "+page.url);
 					continue;
 				} 
-				
-//				resList.addResult(new SearchResult(page.url, page.name, page.score, description));
-
 			}
 			
 			// Ranking
