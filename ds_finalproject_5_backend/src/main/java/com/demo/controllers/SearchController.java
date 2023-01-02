@@ -68,6 +68,7 @@ public class SearchController {
 		
 		//new added
 		keywords.add(new Keyword("电影", 10));
+		keywords.add(new Keyword("movie", 10));
 		keywords.add(new Keyword("改編", 4.5));
 		keywords.add(new Keyword("觀賞", 4.5));
 		keywords.add(new Keyword("评分", 4));
@@ -84,17 +85,19 @@ public class SearchController {
 	 * Recommend search keyword
 	 * 1. 計程車司機
 	 * 2. 億萬富翁
-	 * 3. 巴黎
+	 * 3. 二戰
 	 * */
 	@GetMapping("/movie/search/{keyword}/{count}/{skip}")
 	public ResponseEntity<ResponseData<Object>> search(@PathVariable("keyword") String keyword, @PathVariable("count") int count, @PathVariable("skip") int skip)
 	{
 		SearchResultList resList = new SearchResultList();
 		HashMap<String, String> googleResults = new HashMap<String, String>();
+		String parseKeyword = keyword.indexOf("電影")==-1 ? keyword+" 電影" : keyword;
 		
 		try {
-			googleResults = this.htmlService.searchGoogle(keyword, count, skip);
-			resList.setOriginalGoogleResults(googleResults);
+			HashMap<String, String> originalGoogleResults = this.htmlService.searchGoogle(keyword, count, skip);
+			googleResults = this.htmlService.searchGoogle(parseKeyword, count, skip);
+			resList.setOriginalGoogleResults(originalGoogleResults);
 			for(Map.Entry<String, String> googleResult : googleResults.entrySet())
 			{				
 				String[] value = googleResult.getValue().split(":::");
@@ -102,7 +105,7 @@ public class SearchController {
 				String url = value[0];
 				String description = value.length > 1 ? value[1] : "";	
 				
-				WebPage page = new WebPage(googleResult.getKey(), url, keyword, description);
+				WebPage page = new WebPage(googleResult.getKey(), url, parseKeyword, description);
 				try {
 					//bad request (may be the site side error)
 					//just skip it

@@ -5,6 +5,7 @@ const SearchService = {
     search: async function(keyword, count=20, skip=0){
         // fetch search api in java spring boot
         let { domain, port, route, category, action } = serverConfig;
+        keyword = keyword;
         let uri = `http://${domain}:${port}/${route.search}/${category.movie}/${action.search}/${keyword}/${count}/${skip}`;
         try{
             const res = await axios.get(uri);
